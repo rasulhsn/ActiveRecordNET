@@ -29,27 +29,44 @@ public class User : AdoObjectProxy
 
         public IEnumerable<User> GetAll()
         {
-            return this.RunEnumerable<User>((builder) =>
-            {
-                builder.SetCommand("SELECT * FROM Users");
-            });
+            // Declarative approach
+            var selectQuery = this.Query()
+                                   .Select("Users");
+
+            return this.RunEnumerable<User>(selectQuery);
         }
-		
-	public void Add(User userObject)
+
+        public void Add(User newObject)
         {
-            this.Run((builder) =>
-            {
-                builder.SetCommand("INSERT INTO Users (Name, IsActive) VALUES (@name, @isActive)")
-                    .AddParam((param) =>
-                    {
-                        param.ParameterName = "@name";
-                        param.DbType = System.Data.DbType.String;
-                        param.Value = userObject.Name;
-                    }).AddParam((param) => {
-                        param.ParameterName = "@isActive";
-                        param.Value = userObject.IsActive;
-                    });
-            });
+            // Declarative approach
+            var insertQuery = this.Query().Insert("Users", newObject);
+
+            insertQuery.Column(nameof(User.Name)).Only();
+            insertQuery.Column(nameof(User.IsActive)).Only();
+
+            this.Run(insertQuery);
+        }
+
+        public void Update(User newObject)
+        {
+            // Declarative approach
+            var updateQuery = this.Query().Update("Users", newObject);
+
+            updateQuery.Column(nameof(User.Id)).EqualTo(newObject.Id);
+            updateQuery.Column(nameof(User.Name)).Only();
+            updateQuery.Column(nameof(User.IsActive)).Only();
+
+            this.Run(updateQuery);
+        }
+
+        public void Delete(long id)
+        {
+            // Declarative approach
+            var deleteQuery = this.Query().Delete<User>("Users");
+
+            deleteQuery.Column(nameof(User.Id)).EqualTo(id);
+
+            this.Run(deleteQuery);
         }
 }
 
