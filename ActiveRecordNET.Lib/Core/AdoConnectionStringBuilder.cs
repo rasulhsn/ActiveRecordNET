@@ -30,10 +30,10 @@ namespace ActiveRecordNET.Lib
             return this;
         }
 
-        public AdoConnectionStringBuilder MSSQL()
-        {
-            return this.SetProvider("System.Data.SqlClient", System.Data.SqlClient.SqlClientFactory.Instance);
-        }
+        //public AdoConnectionStringBuilder MSSQL()
+        //{
+        //    return this.SetProvider("System.Data.SqlClient", System.Data.SqlClient.SqlClientFactory.Instance);
+        //}
 
         public AdoConnectionStringBuilder SQLLite()
         {

@@ -5,9 +5,9 @@ using System.Reflection;
 
 namespace ActiveRecordNET.Lib
 {
-    public sealed class AdoCommandExecuter
+    public static class AdoCommandExecuter
     {
-        public AdoExecuterResult<object> Scalar(IDbCommand dbCommand)
+        public static AdoExecuterResult<object> Scalar(IDbCommand dbCommand)
         {
             AdoExecuterResult<object> result = new AdoExecuterResult<object>();
             try
@@ -33,7 +33,7 @@ namespace ActiveRecordNET.Lib
             return result;
         }
 
-        public AdoExecuterResult<IEnumerable<T>> Reader<T>(IDbCommand dbCommand) where T : new()
+        public static AdoExecuterResult<IEnumerable<T>> Reader<T>(IDbCommand dbCommand) where T : new()
         {
             AdoExecuterResult<IEnumerable<T>> result = new AdoExecuterResult<IEnumerable<T>>();
             try
@@ -59,7 +59,7 @@ namespace ActiveRecordNET.Lib
             return result;
         }
 
-        public AdoExecuterResult Query(IDbCommand dbCommand)
+        public static AdoExecuterResult Query(IDbCommand dbCommand)
         {
             AdoExecuterResult result = new AdoExecuterResult();
             try
@@ -85,7 +85,7 @@ namespace ActiveRecordNET.Lib
             return result;
         }
 
-        private IDataReader GetDbReader(object data)
+        private static IDataReader GetDbReader(object data)
         {
             IDataReader reader = data as IDataReader;
             
@@ -97,7 +97,7 @@ namespace ActiveRecordNET.Lib
             return reader;
         }
         
-        private IEnumerable<T> Constructs<T>(object data) where T : new()
+        private static IEnumerable<T> Constructs<T>(object data) where T : new()
         {
             IDataReader reader = GetDbReader(data);
             Type resultType = typeof(T);
@@ -108,7 +108,6 @@ namespace ActiveRecordNET.Lib
             }
 
             List<T> dataResult = new List<T>();
-            var properties = resultType.GetProperties();
             try
             {
                 while (reader.Read())
@@ -124,7 +123,7 @@ namespace ActiveRecordNET.Lib
             return dataResult;
         }
 
-        private object ConstructObject(Type resultType, IDataReader reader)
+        private static object ConstructObject(Type resultType, IDataReader reader)
         {
             bool _IsPrimitive(PropertyInfo property)
             {

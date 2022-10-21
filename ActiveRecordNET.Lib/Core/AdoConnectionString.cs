@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ActiveRecordNET.Lib
+﻿namespace ActiveRecordNET.Lib
 {
+    /// <summary>
+    /// Connection string for the related provider.
+    /// </summary>
     public sealed class AdoConnectionString
     {
         internal AdoConnectionString(string connectionString)
@@ -47,7 +46,7 @@ namespace ActiveRecordNET.Lib
         public override int GetHashCode()
         {
             return string.Concat(this.ConnectionString,
-                                this.ProviderName).GetHashCode();
+                                    this.ProviderName).GetHashCode();
         }
     }
 }

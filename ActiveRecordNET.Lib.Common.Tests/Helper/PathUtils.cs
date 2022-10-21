@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 
-namespace ActiveRecordNET.Lib.Integration.Tests.Helper
+namespace ActiveRecordNET.Lib.Common.Tests
 {
     public static class PathUtils
     {

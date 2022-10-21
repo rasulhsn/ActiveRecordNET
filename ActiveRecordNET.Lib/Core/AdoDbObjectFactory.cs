@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.Common;
 
 namespace ActiveRecordNET.Lib
 {
-    public static class AdoObjectFactory
+    public static class AdoDbObjectFactory
     {
         public static IDbCommand CreateCommand(AdoConnectionString connectionString)
         {

@@ -1,6 +1,6 @@
-﻿namespace ActiveRecordNET.Lib.Integration.Tests
+﻿namespace ActiveRecordNET.Lib.Common.Tests
 {
-    public class TestObject
+    public class TestUserObject
     {
         public long Id { get; set; }
         public string Name { get; set; }

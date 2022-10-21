@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ActiveRecordNET.Lib.Common.Tests\ActiveRecordNET.Lib.Common.Tests.csproj" />
-    <ProjectReference Include="..\ActiveRecordNET.Lib\ActiveRecordNET.Lib.csproj" />
+    <ProjectReference Include="..\ActiveRecordNET.Lib.Extensions\ActiveRecordNET.Lib.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

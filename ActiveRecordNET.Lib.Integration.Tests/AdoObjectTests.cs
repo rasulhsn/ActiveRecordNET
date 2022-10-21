@@ -1,18 +1,19 @@
 using System;
 using System.Collections.Generic;
+using ActiveRecordNET.Lib.Common.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ActiveRecordNET.Lib.Integration.Tests
 {
     [TestClass]
-    public class TestProxyTests
+    public class AdoObjectTests
     {
         [TestMethod]
         public void Sample()
         {
-            TestProxy adoProxy = new TestProxy();
+            TestAdoObject adoObject = new TestAdoObject();
 
-            IEnumerable<TestObject> objects = adoProxy.GetAll();
+            IEnumerable<TestUserObject> objects = adoObject.GetAll();
 
             Assert.IsNotNull(objects);
         }
@@ -20,9 +21,9 @@ namespace ActiveRecordNET.Lib.Integration.Tests
         [TestMethod]
         public void Sample2()
         {
-            TestProxy adoProxy = new TestProxy();
+            TestAdoObject adoObject = new TestAdoObject();
 
-            adoProxy.Add(new TestObject() { IsActive = true, Name = $"Test - {DateTime.Now}" });
+            adoObject.Add(new TestUserObject() { IsActive = true, Name = $"Test - {DateTime.Now}" });
         }
     }
 }

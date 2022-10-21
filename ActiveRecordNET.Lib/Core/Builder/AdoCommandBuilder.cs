@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ActiveRecordNET.Lib
 {
-    public class AdoCommandBuilder
+    public partial class AdoCommandBuilder : IDbCommandBuilder
     {
         private readonly AdoConnectionString _connectionString;
 
@@ -13,11 +13,13 @@ namespace ActiveRecordNET.Lib
         private string _commandText;
         private CommandType _commandType;
 
-        public AdoCommandBuilder(AdoConnectionString connectionString)
+        internal AdoCommandBuilder(AdoConnectionString connectionString)
         {
-            _connectionString = connectionString;
+            _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
             _parameters = new List<IDbDataParameter>();
         }
+
+        public string ProviderName => _connectionString.ProviderName;
 
         public AdoCommandBuilder AddParam(params IDbDataParameter[] parameters)
         {
@@ -36,7 +38,7 @@ namespace ActiveRecordNET.Lib
             if (newParam == null)
                 throw new ArgumentNullException(nameof(newParam));
 
-            var dbParam = AdoObjectFactory.CreateParameter(_connectionString);
+            var dbParam = AdoDbObjectFactory.CreateParameter(_connectionString);
             newParam(dbParam);
 
             return this.AddParam(dbParam);
@@ -50,15 +52,15 @@ namespace ActiveRecordNET.Lib
             return this;
         }
 
-        internal IDbCommand Build()
+        IDbCommand IDbCommandBuilder.Build()
         {
-            var connection = AdoObjectFactory.CreateConnection(_connectionString);
-            var command = AdoObjectFactory.CreateCommand(_connectionString);
-            
+            var connection = AdoDbObjectFactory.CreateConnection(_connectionString);
+            var command = AdoDbObjectFactory.CreateCommand(_connectionString);
+
             command.Connection = connection;
             command.CommandText = this._commandText;
             command.CommandType = this._commandType;
-            
+
             if (_parameters.Any())
             {
                 _parameters.ForEach(param => command.Parameters.Add(param));

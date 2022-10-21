@@ -1,26 +1,23 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using ActiveRecordNET.Lib.Integration.Tests.Helper;
+using ActiveRecordNET.Lib.Common.Tests;
 
 namespace ActiveRecordNET.Lib.Integration.Tests
 {
     [AdoConfiguration(typeof(TestAdoConfigurationFactory))]
-    public class TestProxy : AdoObjectProxy
+    public class TestAdoObject : AdoObject
     {
-        public IEnumerable<TestObject> GetAll()
+        public IEnumerable<TestUserObject> GetAll()
         {
-            return this.RunEnumerable<TestObject>((builder) =>
-            {
-                builder.SetCommand("SELECT * FROM Users");
-            });
+            var queryBuilder = this.Query()
+                              .SetCommand("SELECT * FROM Users");
+
+            return this.RunEnumerable<TestUserObject>(queryBuilder);
         }
 
-        public void Add(TestObject newObject)
+        public void Add(TestUserObject newObject)
         {
-            this.Run((builder) =>
-            {
-                builder.SetCommand("INSERT INTO Users (Name, IsActive) VALUES (@name, @isActive)")
+            var queryBuilder = this.Query()
+                .SetCommand("INSERT INTO Users (Name, IsActive) VALUES (@name, @isActive)")
                     .AddParam((param) =>
                     {
                         param.ParameterName = "@name";
@@ -31,7 +28,8 @@ namespace ActiveRecordNET.Lib.Integration.Tests
                         //param.DbType = System.Data.DbType.Boolean;
                         param.Value = newObject.IsActive;
                     });
-            });
+
+            this.Run(queryBuilder);
         }
     }
 }

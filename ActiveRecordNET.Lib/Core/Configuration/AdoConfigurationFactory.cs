@@ -2,13 +2,16 @@
 {
     public abstract class AdoConfigurationFactory
     {
-        protected readonly AdoConnectionStringBuilder AdoConnectionStringBuilder;
-
-        public AdoConfigurationFactory()
+        public AdoConnectionString CreateConnectionString()
         {
-            AdoConnectionStringBuilder = new AdoConnectionStringBuilder();
+            AdoConnectionStringBuilder adoConnectionStringBuilder =
+                new AdoConnectionStringBuilder();
+
+            Configure(adoConnectionStringBuilder);
+
+            return adoConnectionStringBuilder.Build();
         }
 
-        public abstract AdoConnectionString CreateConnectionString();
+        protected abstract void Configure(AdoConnectionStringBuilder adoConnectionStringBuilder);
     }
 }
