@@ -10,18 +10,16 @@ Note: if you want to overcome the SRP problem, you can apply some design princip
 ```csharp
 public class DefaultConfigurationFactory : AdoConfigurationFactory
 {
-	public override AdoConnectionString CreateConnectionString()
+		protected override void Configure(AdoConnectionStringBuilder adoConnectionStringBuilder)
         {
-		// Sample connection string.
-		string connStr = "Server=myServerAddress;Database=myDataBase;Trusted_Connection=True;";			
-            	return AdoConnectionStringBuilder.ConnectionString(connStr)
-                   	.MSSQL()
-			.Build();
+			// Sample connection string.
+			string connStr = "Server=myServerAddress;Database=myDataBase;Trusted_Connection=True;";			
+            adoConnectionStringBuilder.ConnectionString(connStr).MSSQL();
         }
 }
 
 [AdoConfiguration(typeof(DefaultConfigurationFactory))]
-public class User : AdoObjectProxy
+public class User : AdoObject
 {	    
         public long Id { get; set; }
         public string Name { get; set; }
